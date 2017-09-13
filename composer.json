@@ -1,0 +1,42 @@
+{
+    "name": "yottacms/framework",
+    "description": "Basic framework for Yotta.CMS",
+    "keywords": [
+        "yottacms",
+        "symfony",
+        "dependencies",
+        "framework"
+    ],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alexandr Hrischanovich",
+            "email": "info@asdf.by"
+        },
+		{
+            "name": "Helen Vaskevich",
+            "email": "lena.vev@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "7.*",
+        "symfony/http-kernel": "^3.2"
+    },
+    "require-dev": {
+		"symfony/dependency-injection": "^3.2",
+		"symfony/config": "^3.2",
+        "phpunit/phpunit": "^5.6.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "YottaCms\\Framework\\": ""
+        },
+		"exclude-from-classmap": [
+            "Tests/"
+        ]
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    }
+}
