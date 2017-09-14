@@ -7,7 +7,7 @@ use YottaCms\Framework\Component\HttpKernel;
 class KernelTest extends \PHPUnit_Framework_TestCase 
 {
 	
-	public function testPreloadingBundles()
+	public function testPreloadBundles()
 	{
 		$bundleA = $this->getBundle('BundleA');
 		$subBundleA = $this->getBundle('SubBundleA');
@@ -20,17 +20,17 @@ class KernelTest extends \PHPUnit_Framework_TestCase
         $kernel
             ->expects($this->once())
             ->method('registerBundles')
-            ->will($this->returnValue($kernel->preloadingBundles(array($bundleA, $bundleB))))
+            ->will($this->returnValue($kernel->preloadBundles(array($bundleA, $bundleB))))
         ;
 		
 		$kernel->boot();
-		
-        $this->assertEquals(array(
+        
+        $this->assertTrue(array(
 			$bundleA->getName() 	=> array($bundleA), 
-			$subBundleA->getName()	=> array($subBundleA), 
+            $subBundleA->getName()	=> array($subBundleA), 
 			$subBundleB->getName()	=> array($subBundleB), 
 			$bundleB->getName()		=> array($bundleB)
-		), $kernel->getBundleMap());
+		) === $kernel->getBundleMap());
 
 	}
 	

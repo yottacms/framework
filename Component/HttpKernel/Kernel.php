@@ -11,11 +11,11 @@ abstract class Kernel extends HttpKernel\Kernel implements KernelInterface
 {
 	
 	/**
-	 * Preloading bundles with sub depend bundles
+	 * Preload bundles with sub depend bundles
 	 * @param  array  $bundles
 	 * @return array
 	 */
-	public function preloadingBundles(array $bundles) 
+	public function preloadBundles(array $bundles) 
 	{
 		
 		$bundlesArray = [];
@@ -32,7 +32,7 @@ abstract class Kernel extends HttpKernel\Kernel implements KernelInterface
 			}
 			
 			if (method_exists($lastLoadedBundle, 'registerBundles')) {
-				$bundlesArray = array_merge($bundlesArray, $this->preloadingBundles($lastLoadedBundle->registerBundles()));
+				$bundlesArray = array_merge($bundlesArray, $this->preloadBundles($lastLoadedBundle->registerBundles()));
 			}
 			
 			$bundlesArray[] = $lastLoadedBundle;
