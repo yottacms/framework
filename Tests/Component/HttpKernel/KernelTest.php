@@ -33,6 +33,33 @@ class KernelTest extends \PHPUnit_Framework_TestCase
 		) === $kernel->getBundleMap());
 
 	}
+    
+    public function testPreloadBundleTwice()
+	{
+		$bundleA = $this->getBundle('BundleA');
+		$subBundleA = $this->getBundle('SubBundleA');
+		$subBundleB = $this->getBundle('SubBundleB');
+		$bundleB = $this->getBundle('BundleB', array(
+			$subBundleA, $subBundleB, $bundleA
+		));
+		
+        $kernel = $this->getKernelForTest(array('registerBundles'));
+        $kernel
+            ->expects($this->once())
+            ->method('registerBundles')
+            ->will($this->returnValue($kernel->preloadBundles(array($bundleA, $bundleB, $subBundleA))))
+        ;
+		
+		$kernel->boot();
+        
+        $this->assertTrue(array(
+			$bundleA->getName() 	=> array($bundleA), 
+            $subBundleA->getName()	=> array($subBundleA), 
+			$subBundleB->getName()	=> array($subBundleB), 
+			$bundleB->getName()		=> array($bundleB)
+		) === $kernel->getBundleMap());
+
+	}
 	
 	/**
      * Returns a mock for the BundleInterface.
