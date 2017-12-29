@@ -9,12 +9,14 @@ composer require yottacms/framework
 Рекурсивная разгрузка зависимых бандлов
 
 ```PHP
-// app/AppKernel.php
-use YottaCms\Framework\Component\HttpKernel\Kernel;
+// app/AppKernel.php or src/Kernel.php in Symfony >= v3.4
+use YottaCms\Framework\Component\HttpKernel\PreloadBundlesKernelTrait;
 // ...
 
-class AppKernel extends Kernel
+class AppKernel extends BaseKernel
 {
+    use PreloadBundlesKernelTrait;
+    
     public function registerBundles()
     {
         $bundles = array(
