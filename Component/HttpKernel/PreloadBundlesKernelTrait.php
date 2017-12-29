@@ -2,12 +2,10 @@
 
 namespace YottaCms\Framework\Component\HttpKernel;
 
-use Symfony\Component\HttpKernel;
-
 /**
- * Redesign base symfony kernel
+ * Extend base symfony kernel
  */
-abstract class Kernel extends HttpKernel\Kernel implements KernelInterface
+trait PreloadBundlesKernelTrait
 {
     /**
      * Bundles array after calling $this->preloadBundles

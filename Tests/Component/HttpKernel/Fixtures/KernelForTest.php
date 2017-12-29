@@ -2,11 +2,14 @@
 
 namespace YottaCms\Framework\Tests\Component\HttpKernel\Fixtures;
 
-use YottaCms\Framework\Component\HttpKernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\HttpKernel\Kernel as BaseKernel;
+use YottaCms\Framework\Component\HttpKernel\PreloadBundlesKernelTrait;
 
-class KernelForTest extends HttpKernel\Kernel
+class KernelForTest extends BaseKernel
 {
+    use PreloadBundlesKernelTrait;
+    
     public function getBundleMap()
     {
         return $this->bundleMap;
