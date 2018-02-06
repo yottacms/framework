@@ -12,25 +12,23 @@ class KernelTest extends \PHPUnit_Framework_TestCase
 		$bundleA = $this->getBundle('BundleA');
 		$subBundleA = $this->getBundle('SubBundleA');
 		$subBundleB = $this->getBundle('SubBundleB');
-		$bundleB = $this->getBundle('BundleB', array(
-			$subBundleA, $subBundleB
-		));
+		$bundleB = $this->getBundle('BundleB', [$subBundleA, $subBundleB]);
 		
-        $kernel = $this->getKernelForTest(array('registerBundles'));
+        $kernel = $this->getKernelForTest(['registerBundles']);
         $kernel
             ->expects($this->once())
             ->method('registerBundles')
-            ->will($this->returnValue($kernel->preloadBundles(array($bundleA, $bundleB))))
+            ->will($this->returnValue($kernel->preloadBundles([$bundleA, $bundleB])))
         ;
 		
 		$kernel->boot();
-        
-        $this->assertTrue(array(
-			$bundleA->getName() 	=> array($bundleA), 
-            $subBundleA->getName()	=> array($subBundleA), 
-			$subBundleB->getName()	=> array($subBundleB), 
-			$bundleB->getName()		=> array($bundleB)
-		) === $kernel->getBundleMap());
+		
+        $this->assertTrue([
+			$bundleA->getName() 	=> $bundleA, 
+            $subBundleA->getName()	=> $subBundleA, 
+			$subBundleB->getName()	=> $subBundleB, 
+			$bundleB->getName()		=> $bundleB
+		] === $kernel->getBundleMap());
 
 	}
     
@@ -39,25 +37,23 @@ class KernelTest extends \PHPUnit_Framework_TestCase
 		$bundleA = $this->getBundle('BundleA');
 		$subBundleA = $this->getBundle('SubBundleA');
 		$subBundleB = $this->getBundle('SubBundleB');
-		$bundleB = $this->getBundle('BundleB', array(
-			$subBundleA, $subBundleB, $bundleA
-		));
+		$bundleB = $this->getBundle('BundleB', [$subBundleA, $subBundleB, $bundleA]);
 		
-        $kernel = $this->getKernelForTest(array('registerBundles'));
+        $kernel = $this->getKernelForTest(['registerBundles']);
         $kernel
             ->expects($this->once())
             ->method('registerBundles')
-            ->will($this->returnValue($kernel->preloadBundles(array($bundleA, $bundleB, $subBundleA))))
+            ->will($this->returnValue($kernel->preloadBundles([$bundleA, $bundleB, $subBundleA])))
         ;
 		
 		$kernel->boot();
         
-        $this->assertTrue(array(
-			$bundleA->getName() 	=> array($bundleA), 
-            $subBundleA->getName()	=> array($subBundleA), 
-			$subBundleB->getName()	=> array($subBundleB), 
-			$bundleB->getName()		=> array($bundleB)
-		) === $kernel->getBundleMap());
+        $this->assertTrue([
+			$bundleA->getName() 	=> ($bundleA), 
+            $subBundleA->getName()	=> ($subBundleA), 
+			$subBundleB->getName()	=> ($subBundleB), 
+			$bundleB->getName()		=> ($bundleB)
+		] === $kernel->getBundleMap());
 
 	}
 	
@@ -70,7 +66,7 @@ class KernelTest extends \PHPUnit_Framework_TestCase
     {
         $bundle = $this
             ->getMockBuilder('Symfony\Component\HttpKernel\Bundle\BundleInterface')
-            ->setMethods(array('getName', 'registerBundles'))
+            ->setMethods(['getName', 'registerBundles'])
             ->disableOriginalConstructor()
         ;
 
@@ -100,10 +96,10 @@ class KernelTest extends \PHPUnit_Framework_TestCase
      *
      * @return Kernel
      */
-	protected function getKernelForTest(array $methods = array())
+	protected function getKernelForTest(array $methods = [])
     {
         return $this->getMockBuilder('YottaCms\Framework\Tests\Component\HttpKernel\Fixtures\KernelForTest')
-            ->setConstructorArgs(array('test', false))
+            ->setConstructorArgs(['test', false])
             ->setMethods($methods)
             ->getMock();
     }

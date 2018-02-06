@@ -12,12 +12,12 @@ class KernelForTest extends BaseKernel
     
     public function getBundleMap()
     {
-        return $this->bundleMap;
+        return $this->bundles;
     }
 
     public function registerBundles()
     {
-        return array();
+        return [];
     }
 
     public function registerContainerConfiguration(LoaderInterface $loader)
