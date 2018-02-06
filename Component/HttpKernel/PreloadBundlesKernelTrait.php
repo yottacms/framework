@@ -56,4 +56,20 @@ trait PreloadBundlesKernelTrait
     protected function isBundleLoaded($bundleName) {
         return isset($this->bundlesArray[$bundleName]);
     }
+    
+    /**
+     * Replacing default registerBundles
+     * @return array
+     */
+    public function registerBundles()
+    {
+        $bundles = [];
+        $contents = require $this->getProjectDir().'/config/bundles.php';
+        foreach ($contents as $class => $envs) {
+            if (isset($envs['all']) || isset($envs[$this->environment])) {
+                $bundles[] = $class;
+            }
+        }
+        return $this->preloadBundles($bundles);
+    }
 }
