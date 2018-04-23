@@ -12,17 +12,21 @@ trait PreloadBundlesKernelTrait
      * @var array
      */
     protected $bundlesArray = [];
-    
+
 
 	/**
 	 * Preload bundles with sub depend bundles
 	 * @param  array  $bundles
 	 * @return array
 	 */
-	public function preloadBundles(array $bundles) 
+	public function preloadBundles(array $bundles, $initialize = false)
 	{
+        if (true == $initialize) {
+            $this->bundlesArray = [];
+        }
+
 		foreach ($bundles as $bundle) {
-            
+
 			if (is_object($bundle)) {
 				$lastLoadedBundle = !$this->isBundleLoaded(get_class($bundle)) ? $bundle : false;
 			}
@@ -32,22 +36,22 @@ trait PreloadBundlesKernelTrait
             else {
                 throw new \InvalidArgumentException(sprintf('Bundle "%s" does not exist or it is not enabled.', $bundle));
             }
-			
+
             if (false != $lastLoadedBundle) {
-    			
+
                 if (method_exists($lastLoadedBundle, 'registerBundles')) {
     				$this->bundlesArray = array_merge($this->bundlesArray, $this->preloadBundles($lastLoadedBundle->registerBundles()));
     			}
-    			
+
     			$this->bundlesArray[get_class($lastLoadedBundle)] = $lastLoadedBundle;
-                
+
             }
 
 		}
-		
+
 		return $this->bundlesArray;
 	}
-    
+
     /**
      * Check is Bundle already loaded
      * @param  string  $bundleName
@@ -56,7 +60,7 @@ trait PreloadBundlesKernelTrait
     protected function isBundleLoaded($bundleName) {
         return isset($this->bundlesArray[$bundleName]);
     }
-    
+
     /**
      * Replacing default registerBundles
      * @return array
@@ -70,6 +74,6 @@ trait PreloadBundlesKernelTrait
                 $bundles[] = $class;
             }
         }
-        return $this->preloadBundles($bundles);
+        return $this->preloadBundles($bundles, true);
     }
 }
