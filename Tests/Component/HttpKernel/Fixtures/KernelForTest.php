@@ -9,7 +9,12 @@ use YottaCms\Framework\Component\HttpKernel\PreloadBundlesKernelTrait;
 class KernelForTest extends BaseKernel
 {
     use PreloadBundlesKernelTrait;
-    
+
+    public function getProjectDir(): string
+    {
+        return \realpath(__DIR__ . '/../../../../');
+    }
+
     public function getBundleMap()
     {
         return $this->bundles;

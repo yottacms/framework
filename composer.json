@@ -13,20 +13,16 @@
         {
             "name": "Alexandr Hrischanovich",
             "email": "info@asdf.by"
-        },
-		{
-            "name": "Helen Vaskevich",
-            "email": "lena.vev@gmail.com"
         }
     ],
     "require": {
-        "php": "^7.1",
-        "symfony/http-kernel": "^3.4|^4.0"
+        "php": ">=7.2",
+        "symfony/http-kernel": "^4|^5"
     },
     "require-dev": {
-        "symfony/dependency-injection": "^3.4|^4.0",
-		"symfony/config": "^3.4|^4.0",
-        "phpunit/phpunit": "^5.6.4"
+        "symfony/dependency-injection": "^4.1.12|^5",
+		"symfony/config": "^4|^5",
+        "phpunit/phpunit": "^7"
     },
     "autoload": {
         "psr-4": {
