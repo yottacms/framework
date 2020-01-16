@@ -9,16 +9,16 @@ composer require yottacms/framework
 Рекурсивная разгрузка зависимых бандлов
 
 ```PHP
-// src/Kernel.php in Symfony >= v3.4
+// src/Kernel.php in Symfony >= v4
 use YottaCms\Framework\Component\HttpKernel\PreloadBundlesKernelTrait;
 // ...
 
 class Kernel extends BaseKernel
 {
-    use PreloadBundlesKernelTrait;
-    
-    // remove default "registerBundles" method (it will be replaced by PreloadBundlesKernelTrait)
-    /* public function registerBundles()
+    use MicroKernelTrait, PreloadBundlesKernelTrait;
+
+    // remove or rename default "registerBundles" method (it will be replaced by PreloadBundlesKernelTrait)
+    public function registerBundlesDisabled()
     {
         $contents = require $this->getProjectDir().'/config/bundles.php';
         foreach ($contents as $class => $envs) {
@@ -27,8 +27,7 @@ class Kernel extends BaseKernel
             }
         }
     }
-    */
-    
+
     // ...
 }
 
@@ -42,7 +41,7 @@ class YourBundle extends Bundle
     public function registerBundles()
     {
         return [
-            \Symfony\Cmf\Bundle\RoutingBundle\CmfRoutingBundle::class   // @example
+            \Symfony\Cmf\Bundle\RoutingBundle\CmfRoutingBundle::class => ['all' => true],   // @example
         ];
     }
 }
